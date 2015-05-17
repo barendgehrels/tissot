@@ -1,0 +1,116 @@
+# Tissot, converts projecton source code (Proj4) to Boost.Geometry
+# (or potentially other source code)
+#
+# Copyright (c) 2015 Barend Gehrels, Amsterdam, the Netherlands.
+#
+# Use, modification and distribution is subject to the Boost Software License,
+# Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+export INPUT_FOLDER_PROJ4=~/svn/proj/src
+
+export OUTPUT_FOLDER=../bg_converted
+#export OUTPUT_FOLDER=~/git/boost/modular-boost/libs/geometry/include/boost/geometry/extensions/gis/projections/proj/
+
+export CONVERTER=./tissot
+
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_aea.c aea > $OUTPUT_FOLDER/aea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_aeqd.c aeqd > $OUTPUT_FOLDER/aeqd.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_airy.c airy > $OUTPUT_FOLDER/airy.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_aitoff.c aitoff > $OUTPUT_FOLDER/aitoff.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_august.c august > $OUTPUT_FOLDER/august.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_bacon.c bacon > $OUTPUT_FOLDER/bacon.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_bipc.c bipc > $OUTPUT_FOLDER/bipc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_boggs.c boggs > $OUTPUT_FOLDER/boggs.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_bonne.c bonne > $OUTPUT_FOLDER/bonne.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_calcofi.c calcofi > $OUTPUT_FOLDER/calcofi.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_cass.c cass > $OUTPUT_FOLDER/cass.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_cc.c cc > $OUTPUT_FOLDER/cc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_cea.c cea > $OUTPUT_FOLDER/cea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_chamb.c chamb > $OUTPUT_FOLDER/chamb.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_collg.c collg > $OUTPUT_FOLDER/collg.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_crast.c crast > $OUTPUT_FOLDER/crast.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_denoy.c denoy > $OUTPUT_FOLDER/denoy.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eck1.c eck1 > $OUTPUT_FOLDER/eck1.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eck2.c eck2 > $OUTPUT_FOLDER/eck2.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eck3.c eck3 > $OUTPUT_FOLDER/eck3.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eck4.c eck4 > $OUTPUT_FOLDER/eck4.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eck5.c eck5 > $OUTPUT_FOLDER/eck5.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eqc.c eqc > $OUTPUT_FOLDER/eqc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_eqdc.c eqdc > $OUTPUT_FOLDER/eqdc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_fahey.c fahey > $OUTPUT_FOLDER/fahey.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_fouc_s.c fouc_s > $OUTPUT_FOLDER/fouc_s.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_gall.c gall > $OUTPUT_FOLDER/gall.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/pj_geocent.c geocent > $OUTPUT_FOLDER/geocent.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_geos.c geos > $OUTPUT_FOLDER/geos.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_gins8.c gins8 > $OUTPUT_FOLDER/gins8.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_gn_sinu.c gn_sinu > $OUTPUT_FOLDER/gn_sinu.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_gnom.c gnom > $OUTPUT_FOLDER/gnom.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_goode.c goode > $OUTPUT_FOLDER/goode.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_gstmerc.c gstmerc > $OUTPUT_FOLDER/gstmerc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_hammer.c hammer > $OUTPUT_FOLDER/hammer.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_hatano.c hatano > $OUTPUT_FOLDER/hatano.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_healpix.c healpix > $OUTPUT_FOLDER/healpix.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_igh.c igh > $OUTPUT_FOLDER/igh.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_imw_p.c imw_p > $OUTPUT_FOLDER/imw_p.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_isea.c isea > $OUTPUT_FOLDER/isea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_krovak.c krovak > $OUTPUT_FOLDER/krovak.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_labrd.c labrd > $OUTPUT_FOLDER/labrd.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_laea.c laea > $OUTPUT_FOLDER/laea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_lagrng.c lagrng > $OUTPUT_FOLDER/lagrng.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_larr.c larr > $OUTPUT_FOLDER/larr.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_lask.c lask > $OUTPUT_FOLDER/lask.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/pj_latlong.c latlong > $OUTPUT_FOLDER/latlong.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_lcc.c lcc > $OUTPUT_FOLDER/lcc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_lcca.c lcca > $OUTPUT_FOLDER/lcca.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_loxim.c loxim > $OUTPUT_FOLDER/loxim.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_lsat.c lsat > $OUTPUT_FOLDER/lsat.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_mbt_fps.c mbt_fps > $OUTPUT_FOLDER/mbt_fps.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_mbtfpp.c mbtfpp > $OUTPUT_FOLDER/mbtfpp.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_mbtfpq.c mbtfpq > $OUTPUT_FOLDER/mbtfpq.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_merc.c merc > $OUTPUT_FOLDER/merc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_mill.c mill > $OUTPUT_FOLDER/mill.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_mod_ster.c mod_ster > $OUTPUT_FOLDER/mod_ster.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_moll.c moll > $OUTPUT_FOLDER/moll.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_natearth.c natearth > $OUTPUT_FOLDER/natearth.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_nell.c nell > $OUTPUT_FOLDER/nell.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_nell_h.c nell_h > $OUTPUT_FOLDER/nell_h.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_nocol.c nocol > $OUTPUT_FOLDER/nocol.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_nsper.c nsper > $OUTPUT_FOLDER/nsper.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_nzmg.c nzmg > $OUTPUT_FOLDER/nzmg.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_ob_tran.c ob_tran > $OUTPUT_FOLDER/ob_tran.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_ocea.c ocea > $OUTPUT_FOLDER/ocea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_oea.c oea > $OUTPUT_FOLDER/oea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_omerc.c omerc > $OUTPUT_FOLDER/omerc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_ortho.c ortho > $OUTPUT_FOLDER/ortho.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_poly.c poly > $OUTPUT_FOLDER/poly.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_putp2.c putp2 > $OUTPUT_FOLDER/putp2.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_putp3.c putp3 > $OUTPUT_FOLDER/putp3.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_putp4p.c putp4p > $OUTPUT_FOLDER/putp4p.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_putp5.c putp5 > $OUTPUT_FOLDER/putp5.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_putp6.c putp6 > $OUTPUT_FOLDER/putp6.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_qsc.c qsc > $OUTPUT_FOLDER/qsc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_robin.c robin > $OUTPUT_FOLDER/robin.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_rpoly.c rpoly > $OUTPUT_FOLDER/rpoly.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_sconics.c sconics > $OUTPUT_FOLDER/sconics.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_somerc.c somerc > $OUTPUT_FOLDER/somerc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_stere.c stere > $OUTPUT_FOLDER/stere.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_sterea.c sterea > $OUTPUT_FOLDER/sterea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_sts.c sts > $OUTPUT_FOLDER/sts.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_tcc.c tcc > $OUTPUT_FOLDER/tcc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_tcea.c tcea > $OUTPUT_FOLDER/tcea.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_tmerc.c tmerc > $OUTPUT_FOLDER/tmerc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_tpeqd.c tpeqd > $OUTPUT_FOLDER/tpeqd.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_urm5.c urm5 > $OUTPUT_FOLDER/urm5.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_urmfps.c urmfps > $OUTPUT_FOLDER/urmfps.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_vandg.c vandg > $OUTPUT_FOLDER/vandg.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_vandg2.c vandg2 > $OUTPUT_FOLDER/vandg2.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_vandg4.c vandg4 > $OUTPUT_FOLDER/vandg4.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_wag2.c wag2 > $OUTPUT_FOLDER/wag2.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_wag3.c wag3 > $OUTPUT_FOLDER/wag3.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_wag7.c wag7 > $OUTPUT_FOLDER/wag7.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_wink1.c wink1 > $OUTPUT_FOLDER/wink1.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/PJ_wink2.c wink2 > $OUTPUT_FOLDER/wink2.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/proj_etmerc.c etmerc > $OUTPUT_FOLDER/etmerc.hpp
+$CONVERTER $INPUT_FOLDER_PROJ4/proj_rouss.c rouss > $OUTPUT_FOLDER/rouss.hpp
+

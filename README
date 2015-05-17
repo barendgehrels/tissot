@@ -1,3 +1,23 @@
 tissot
 
 Converts projection library source code (proj4)
+
+
+LICENSE:
+Boost, see LICENSE_1_0.txt
+
+
+COMPILING:
+There is one cpp file. It is only dependent on Boost. So compilation should
+be extremely simple, for example:
+
+clang -I . -I /home/barend/git/boost/modular-boost/ -o ../bin/tissot tissot.cpp -lstdc++
+
+
+RUNNING:
+- compile (as above)
+- download proj4
+- modify all.sh (in bin) to configure the input path where proj4 resides
+- if desired, modify all.sh to configure the output path
+- run all.sh
+

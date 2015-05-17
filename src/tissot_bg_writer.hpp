@@ -110,11 +110,6 @@ class proj4_writer_cpp_bg
                 stream << include_projections << "/proj/" << s << ">"  << std::endl;
             }
 
-            if (projection_group == "robin"
-                || projection_group == "tmerc")
-            {
-                stream << include_projections << "/impl/function_overloads.hpp>" << std::endl;
-            }
 
             BOOST_FOREACH(std::string const& s, m_projpar.extra_impl_includes)
             {

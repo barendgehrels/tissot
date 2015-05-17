@@ -30,6 +30,8 @@ class converter_cpp_bg_tmerc : public converter_cpp_bg_default
 
         void convert()
         {
+            m_prop.extra_impl_includes.insert("function_overloads.hpp");
+
             BOOST_FOREACH(projection& proj, m_prop.projections)
             {
                 BOOST_FOREACH(std::string& line, proj.lines)

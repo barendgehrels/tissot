@@ -29,6 +29,8 @@ class converter_cpp_bg_robin : public converter_cpp_bg_default
 
         void convert()
         {
+            m_prop.extra_impl_includes.insert("function_overloads.hpp");
+
             // Replace two macro's by inline functions (below)
             // They have to be replaced because V is used in Boost Macro's
 

@@ -193,6 +193,7 @@ class proj4_writer_cpp_bg
         {
             BOOST_FOREACH(macro_or_const const& con, m_projpar.defined_consts)
             {
+                // TODO: the type definition should go somewhere else, not during writing it
                 std::string type = "double";
 
                 // Check if it is a real integer
@@ -292,6 +293,7 @@ class proj4_writer_cpp_bg
                         + "\n" + tab5 + " Geographic, Cartesian, Parameters>";
 
 
+                    // TODO: move this projection-dependent conversion
                     std::string mut;
                     if (projection_group == "lcc"
                         || projection_group == "aea"
@@ -616,24 +618,6 @@ class proj4_writer_cpp_bg
 
                 BOOST_FOREACH(model const& mod, der.models)
                 {
-#if 0
-                    if (m_projpar.has_spheroid && m_projpar.has_ellipsoid && m_projpar.has_guam)
-                    {
-                        stream << tab5;
-                        switch(m)
-                        {
-                            case 0 : stream << "if (! par.es)"; break;
-                            case 1 : stream << "else if (pj_param(par.params, \"bguam\").i)"; break;
-                            case 2 : stream << "else"; break;
-                        }
-                        stream << std::endl;
-                    }
-                    else if (m == 1 && do_else)
-                    {
-                        stream << tab5 << "else" << std::endl;
-                    }
-#endif
-
                     if (! mod.condition.empty())
                     {
                         stream << tab5 << mod.condition << std::endl;

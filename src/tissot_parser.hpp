@@ -49,6 +49,7 @@ class proj4_parser
 
     private :
 
+        // TODO: replacements will go to tissot_converter.hpp
         // Replaces "P->" with our expression "par."
         void replace_pars(std::string& line, std::string const& prefix = "")
         {
@@ -73,6 +74,7 @@ class proj4_parser
 
         }
 
+        // TODO: replacements will go to tissot_converter.hpp
         bool replace_in_entry(std::string& line)
         {
             replace_pars(line);
@@ -98,7 +100,7 @@ class proj4_parser
         void replace_macros(std::string& line)
         {
             // Replace all "defines" containing -> with the defined constant
-//TODO: somewhere else
+            // TODO: replacements will go to tissot_converter.hpp
             for (std::vector<macro_or_const>::const_iterator it = m_prop.defined_parameters.begin();
                 it != m_prop.defined_parameters.end();
                 ++it)
@@ -123,11 +125,6 @@ class proj4_parser
             {
                 setup.push_back(line);
             }
-        }
-
-        void parse_characteristics(std::string const& chars, derived& der)
-        {
-            der.raw_characteristics += " " + chars;
         }
 
         std::string get_raw_model(std::string const& line)

@@ -19,10 +19,13 @@
 #include "analyzer.hpp"
 #include "documenter.hpp"
 
+#include "converter_aea.hpp"
 #include "converter_aeqd.hpp"
 #include "converter_aitoff.hpp"
+#include "converter_cass.hpp"
 #include "converter_cea.hpp"
 #include "converter_chamb.hpp"
+#include "converter_eqdc.hpp"
 #include "converter_etmerc.hpp"
 #include "converter_geos.hpp"
 #include "converter_gn_sinu.hpp"
@@ -55,8 +58,11 @@ converter_cpp_bg_default* get_specific(std::string const& projection_group,
 {
     return projection_group == "aitoff" ? new converter_cpp_bg_aitoff(prop)
         :  projection_group == "aeqd" ? new converter_cpp_bg_aeqd(prop)
+        :  projection_group == "aea" ? new converter_cpp_bg_aea(prop)
+        :  projection_group == "cass" ? new converter_cpp_bg_cass(prop)
         :  projection_group == "cea" ? new converter_cpp_bg_cea(prop)
         :  projection_group == "chamb" ? new converter_cpp_bg_chamb(prop)
+        :  projection_group == "eqdc" ? new converter_cpp_bg_eqdc(prop)
         :  projection_group == "etmerc" ? new converter_cpp_bg_etmerc(prop)
         :  projection_group == "geos" ? new converter_cpp_bg_geos(prop)
         :  projection_group == "gn_sinu" ? new converter_cpp_bg_gn_sinu(prop)

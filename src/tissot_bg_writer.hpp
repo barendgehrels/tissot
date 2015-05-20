@@ -285,18 +285,6 @@ class proj4_writer_cpp_bg
                     tbase += "<" + name + "<Geographic, Cartesian, Parameters>,"
                         + "\n" + tab5 + " Geographic, Cartesian, Parameters>";
 
-
-                    // TODO: move this projection-dependent conversion
-                    std::string mut;
-                    if (projection_group == "lcc"
-                        || projection_group == "aea"
-                        || projection_group == "cass"
-                        || projection_group == "eqdc"
-                        )
-                    {
-                        mut = "mutable ";
-                    }
-
                     stream
                         << tab3 << "// template class, using CRTP to implement forward/inverse" << std::endl
                         << tab3 << "template <typename Geographic, typename Cartesian, typename Parameters>" << std::endl
@@ -316,7 +304,7 @@ class proj4_writer_cpp_bg
                     // optional project specific parameter variable
                     if (! m_projpar.proj_parameters.empty())
                     {
-                        stream << tab4 << mut << "par_" << projection_group
+                        stream << tab4 << "par_" << projection_group
                             << m_projpar.template_struct << " m_proj_parm;" << std::endl;
                     }
 

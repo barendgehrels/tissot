@@ -70,8 +70,6 @@ inline void split(std::string const& line, std::vector<std::string>& subs, std::
     }
 }
 
-
-
 inline void replace_return(std::string& line, std::string const& var)
 {
     std::string copy(line);
@@ -83,7 +81,6 @@ inline void replace_return(std::string& line, std::string const& var)
         line = tab3 + "return;";
     }
 }
-
 
 inline std::vector<std::string> extract_names(std::vector<std::string> const& parameters)
 {

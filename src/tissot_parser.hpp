@@ -272,7 +272,6 @@ class proj4_parser
                             name.erase(loc);
                         }
 
-
                         // Find corresponding projection
                         derived_it = m_prop.derived_projections.begin();
                         while (derived_it != m_prop.derived_projections.end() && derived_it->name != name)
@@ -444,7 +443,6 @@ class proj4_parser
                         {
                             projection proj;
                             proj.raw_model = raw_model;
-//                            proj.model = model;
                             proj.direction = direction;
                             m_prop.projections.push_back(proj);
 

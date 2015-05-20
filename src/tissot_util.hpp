@@ -70,18 +70,6 @@ inline void split(std::string const& line, std::vector<std::string>& subs, std::
     }
 }
 
-inline void replace_return(std::string& line, std::string const& var)
-{
-    std::string copy(line);
-    boost::replace_all(copy, "return", "");
-    boost::trim_left_if(copy, boost::is_any_of("\t ("));
-    boost::trim_right_if(copy, boost::is_any_of("\t );"));
-    if (copy == var)
-    {
-        line = tab3 + "return;";
-    }
-}
-
 inline std::vector<std::string> extract_names(std::vector<std::string> const& parameters)
 {
     std::string pars;

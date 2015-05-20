@@ -49,14 +49,6 @@ class proj4_parser
 
     private :
 
-        // TODO: replacements will go to tissot_converter.hpp
-        bool replace_in_entry(std::string& line)
-        {
-            replace_return(line, "P");
-
-            return true;
-        }
-
         void replace_macros(std::string& line)
         {
             // Replace all "defines" containing -> with the defined constant
@@ -73,10 +65,7 @@ class proj4_parser
         void insert_into_setup(std::string line, std::vector<std::string>& setup)
         {
             replace_macros(line);
-            if (replace_in_entry(line))
-            {
-                setup.push_back(line);
-            }
+            setup.push_back(line);
         }
 
         std::string get_raw_model(std::string const& line)
@@ -428,9 +417,6 @@ class proj4_parser
 
                             replace_macros(line);
 
-                            replace_return(line, "xy");
-                            replace_return(line, "lp");
-
                             boost::replace_all(line, "xy.x", "xy_x");
                             boost::replace_all(line, "xy.y", "xy_y");
                             boost::replace_all(line, "lp.lam", "lp_lon");
@@ -470,7 +456,6 @@ class proj4_parser
                             }
                             else
                             {
-                                replace_in_entry(*it);
                                 derived_it->constructor_lines.push_back(tab1 + boost::trim_copy(*it + ";"));
                             }
                         }

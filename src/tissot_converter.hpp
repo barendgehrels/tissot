@@ -35,6 +35,7 @@ public :
         for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
         replace_parameters();
         replace_parameter_usage();
+        replace_return();
 
         fix_lastlines();
         replace_apple_macros();
@@ -322,6 +323,40 @@ private :
         }
     }
 
+    inline void replace_return(std::string& line, std::string const& var)
+    {
+        std::string copy(line);
+        boost::replace_all(copy, "return", "");
+        boost::trim_left_if(copy, boost::is_any_of(" ("));
+        boost::trim_right_if(copy, boost::is_any_of(" );"));
+        if (copy == var)
+        {
+            line = tab3 + "return;";
+        }
+    }
+
+    void replace_return(std::vector<std::string>& lines, std::string const& var)
+    {
+        BOOST_FOREACH(std::string& line, lines)
+        {
+            replace_return(line, var);
+        }
+    }
+
+    void replace_return()
+    {
+        replace_return(m_prop.setup_functions, "P");
+        BOOST_FOREACH(derived& der, m_prop.derived_projections)
+        {
+            replace_return(der.constructor_lines, "P");
+        }
+
+        BOOST_FOREACH(projection& proj, m_prop.projections)
+        {
+            replace_return(proj.lines, "xy");
+            replace_return(proj.lines, "lp");
+        }
+    }
 
     void trim_right(std::vector<std::string>& lines)
     {

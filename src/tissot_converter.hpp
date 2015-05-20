@@ -32,7 +32,6 @@ public :
 
     void convert()
     {
-        fix_inlined_functions();
         fix_lastlines();
         replace_parameters();
         replace_apple_macros();
@@ -282,34 +281,6 @@ private :
             replace_functions_in_line(line);
         }
     }
-
-
-#if 1
-    void fix_inlined_functions()
-    {
-        std::vector<std::string>& lines = m_prop.inlined_functions;
-
-        BOOST_FOREACH(std::string& line, lines)
-        {
-            std::string trimmed = boost::trim_copy(line);
-            if (boost::starts_with(trimmed, "static "))
-            {
-                if (boost::contains(trimmed, "struct")
-                    || trimmed == "static COMPLEX"
-                    || boost::contains(trimmed, "=")
-                    || boost::contains(trimmed, "[]")
-                )
-                {
-                    // This is a struct / const definition
-                    continue;
-                }
-
-                // This is a static function - make it inline TODO: avoid this
-                boost::replace_all(line, "static ", "inline ");
-            }
-        }
-    }
-#endif
 
     void replace_parameters()
     {

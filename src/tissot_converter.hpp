@@ -16,6 +16,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 
+#include <sstream>
 
 namespace boost { namespace geometry { namespace proj4converter
 {
@@ -37,6 +38,7 @@ public :
         replace_apple_macros();
         replace_ctx();
         replace_struct_parameters();
+        determine_const_types();
 
         for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
         trim(); // we do this twice
@@ -444,6 +446,27 @@ private :
         }
         for_each_line(&proj4_converter_cpp_bg::pass_parameter_instead_of_return);
     }
+
+    void determine_const_types()
+    {
+        BOOST_FOREACH(macro_or_const& con, m_prop.defined_consts)
+        {
+            // By default:
+            con.type = "double";
+
+            // Check if integer:
+            {
+                int value = atoi(con.value.c_str());
+                std::ostringstream out;
+                out << value;
+                if (out.str() == con.value)
+                {
+                    con.type = "int";
+                }
+            }
+        }
+    }
+
 
     void replace_ctx(std::string const& function, std::string& line)
     {

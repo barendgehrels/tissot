@@ -59,6 +59,7 @@ struct projection
 
 struct macro_or_const
 {
+    std::string type;
     std::string name;
     std::string value;
 };

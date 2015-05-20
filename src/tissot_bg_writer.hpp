@@ -197,20 +197,12 @@ class proj4_writer_cpp_bg
         {
             BOOST_FOREACH(macro_or_const const& con, m_projpar.defined_consts)
             {
-                // TODO: the type definition should go somewhere else, not during writing it
-                std::string type = "double";
-
-                // Check if it is a real integer
-                {
-                    int value = atoi(con.value.c_str());
-                    std::ostringstream out;
-                    out << value;
-                    if (out.str() == con.value)
-                    {
-                        type = "int";
-                    }
-                }
-                stream << tab3 << "static const " << type << " " << con.name << " = " << con.value << ";" << std::endl;
+                stream
+                    << tab3 << "static const " << con.type
+                    << " " << con.name
+                    << " = " << con.value
+                    << ";"
+                    << std::endl;
             }
             write_endl_if_filled(m_projpar.defined_consts);
 

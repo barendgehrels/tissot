@@ -48,11 +48,7 @@ class converter_cpp_bg_isea : public converter_cpp_bg_default
 
                 // Structure not completely filled:
                 boost::replace_all(line, "{0.0},", "{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},");
-
-                boost::replace_all(line, "exit(EXIT_FAILURE)", "throw proj_exception()");
-
             }
-
 
             // Remove #ifndef/#endif structs (defining M_PI / static)
             {

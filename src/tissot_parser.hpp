@@ -78,20 +78,6 @@ class proj4_parser
         bool replace_in_entry(std::string& line)
         {
             replace_pars(line);
-
-            if (boost::contains(line, "E_ERROR_0") && lineno == skip_lineno)
-            {
-                //std::cerr << lineno << " , " << skip_lineno << " : " << line << std::endl;
-                line.clear();
-            }
-
-            boost::replace_all(line, "E_ERROR_0", "throw proj_exception(0)");
-            boost::replace_all(line, "E_ERROR", "throw proj_exception");
-            if (boost::contains(line, "throw") && ! boost::ends_with(line, ";"))
-            {
-                line += ";";
-            }
-
             replace_return(line, "P");
 
             return true;
@@ -106,14 +92,6 @@ class proj4_parser
                 ++it)
             {
                 boost::replace_all(line, it->name, it->value);
-            }
-
-            if (boost::contains(boost::replace_all_copy(line, " ", ""), "pj_errno="))
-            {
-                boost::replace_all(line, "pj_errno", "throw proj_exception(");
-                boost::replace_all(line, "=", "");
-                boost::replace_all(line, ";", ");");
-                boost::replace_all(line, ";;", ";");
             }
         }
 
@@ -492,10 +470,6 @@ class proj4_parser
                             boost::replace_all(line, " cosl,", " cosl_,");
                             boost::replace_all(line, " cosl)", " cosl_)");
                             boost::replace_all(line, " cosl ", " cosl_ ");
-
-                            boost::replace_all(line, "F_ERROR", "throw proj_exception();");
-                            boost::replace_all(line, "I_ERROR", "throw proj_exception();");
-                            boost::replace_all(line, "pj_ctx_set_errno", "throw proj_exception");
 
                             proj_it->lines.push_back(line);
                         }

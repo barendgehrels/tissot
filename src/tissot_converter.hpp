@@ -40,6 +40,7 @@ public :
         determine_const_types();
 
         for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
+        for_each_line(&proj4_converter_cpp_bg::replace_exceptions);
         trim(); // we do this twice
     }
 
@@ -251,7 +252,31 @@ private :
             int const index = *it;
             lines.erase(lines.begin() + index);
         }
+    }
 
+    void replace_exceptions(std::vector<std::string>& lines)
+    {
+        BOOST_FOREACH(std::string& line, lines)
+        {
+            boost::replace_all(line, "F_ERROR", "throw proj_exception();");
+            boost::replace_all(line, "I_ERROR", "throw proj_exception();");
+            boost::replace_all(line, "E_ERROR_0", "throw proj_exception(0)");
+            boost::replace_all(line, "exit(EXIT_FAILURE)", "throw proj_exception()");
+
+            if (boost::contains(line, "E_ERROR"))
+            {
+                boost::replace_all(line, "E_ERROR", "throw proj_exception");
+                if (boost::ends_with(line, ")"))
+                {
+                    boost::replace_last(line, ")", ");");
+                }
+            }
+            if (boost::contains(line, "pj_ctx_set_errno"))
+            {
+                boost::replace_all(line, "this->m_par.ctx,", "");
+                boost::replace_all(line, "pj_ctx_set_errno", "throw proj_exception");
+            }
+        }
     }
 
     void trim_right(std::vector<std::string>& lines)

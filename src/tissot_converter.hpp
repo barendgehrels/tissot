@@ -38,6 +38,7 @@ public :
         replace_parameters();
         replace_parameter_usage();
         replace_return();
+        replace_xy_ll();
 
         fix_lastlines();
         replace_apple_macros();
@@ -402,6 +403,12 @@ private :
         boost::replace_all(line, "M_PI", "boost::math::constants::pi<double>()");
 
         boost::replace_all(line, "hypot", "boost::math::hypot");
+
+        // TODO: create something like: replace whole words, case sensitive:
+        boost::replace_all(line, " cosl,", " cosl_,");
+        boost::replace_all(line, " cosl)", " cosl_)");
+        boost::replace_all(line, " cosl ", " cosl_ ");
+
         // BEGIN libproject:
         boost::replace_all(line, "proj_asin", "std::asin");
         boost::replace_all(line, "proj_acos", "std::acos");
@@ -450,6 +457,20 @@ private :
             BOOST_FOREACH(std::string& line, der.constructor_lines)
             {
                 boost::replace_first(line, "setup(P", "setup(par");
+            }
+        }
+    }
+
+    void replace_xy_ll()
+    {
+        BOOST_FOREACH(projection& proj, m_prop.projections)
+        {
+            BOOST_FOREACH(std::string& line, proj.lines)
+            {
+                boost::replace_all(line, "xy.x", "xy_x");
+                boost::replace_all(line, "xy.y", "xy_y");
+                boost::replace_all(line, "lp.lam", "lp_lon");
+                boost::replace_all(line, "lp.phi", "lp_lat");
             }
         }
     }

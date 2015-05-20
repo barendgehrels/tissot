@@ -194,7 +194,6 @@ class proj4_parser
                             {
                                 entry.insert(pos + 1, ";");
                             }
-                            //boost::split(extra_entries, entry, boost::is_any_of(";"));
                             split(entry, extra_entries, ";");
 
                             if (extra_entries.size() > 0)
@@ -383,17 +382,6 @@ class proj4_parser
                         else if (proj_it != m_prop.projections.end())
                         {
                             // Goes in "projection.lines"
-
-                            boost::replace_all(line, "xy.x", "xy_x");
-                            boost::replace_all(line, "xy.y", "xy_y");
-                            boost::replace_all(line, "lp.lam", "lp_lon");
-                            boost::replace_all(line, "lp.phi", "lp_lat");
-
-                            // TODO: create something like: replace whole words, case sensitive:
-                            boost::replace_all(line, " cosl,", " cosl_,");
-                            boost::replace_all(line, " cosl)", " cosl_)");
-                            boost::replace_all(line, " cosl ", " cosl_ ");
-
                             proj_it->lines.push_back(line);
                         }
                     }

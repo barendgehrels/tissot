@@ -71,6 +71,15 @@ class proj4_writer_cpp_bg
 
         std::ostream& stream;
 
+        template <typename Container>
+        void write_endl_if_filled(Container const& c)
+        {
+            if (! c.empty())
+            {
+                stream << std::endl;
+            }
+        }
+
         void write_copyright()
         {
             std::ifstream cr_file ("../src/tissot_bg_copyright_header.txt");
@@ -93,10 +102,7 @@ class proj4_writer_cpp_bg
             {
                 stream << "#include <" << s << ">"  << std::endl;
             }
-            if (! m_projpar.extra_includes.empty())
-            {
-                stream << std::endl;
-            }
+            write_endl_if_filled(m_projpar.extra_includes);
 
             stream
                 << include_projections << "/impl/base_static.hpp>" << std::endl
@@ -138,7 +144,8 @@ class proj4_writer_cpp_bg
 
             stream
                 << tab1 << "#ifndef DOXYGEN_NO_DETAIL" << std::endl
-                << tab1 << "namespace detail { namespace " << projection_group << "{" << std::endl;
+                << tab1 << "namespace detail { namespace " << projection_group << std::endl
+                << tab1 << "{" << std::endl << std::endl;
         }
 
         void write_extra_structs()
@@ -147,10 +154,7 @@ class proj4_writer_cpp_bg
             {
                 stream << tab3 << s << std::endl;
             }
-            if (! m_projpar.extra_structs.empty())
-            {
-                stream << std::endl;
-            }
+            write_endl_if_filled(m_projpar.extra_structs);
 
             std::string ts = m_projpar.template_struct;
             if (! ts.empty())
@@ -208,16 +212,16 @@ class proj4_writer_cpp_bg
                 }
                 stream << tab3 << "static const " << type << " " << con.name << " = " << con.value << ";" << std::endl;
             }
-            stream << std::endl;
+            write_endl_if_filled(m_projpar.defined_consts);
 
             BOOST_FOREACH(macro_or_const const& macro, m_projpar.defined_macros)
             {
-                stream << tab3 << "#define " << macro.name << " " << macro.value << std::endl;
+                stream
+                    << tab3 << "#define " << macro.name
+                    << " " << macro.value
+                    << std::endl;
             }
-            if (! m_projpar.defined_macros.empty())
-            {
-                stream << std::endl;
-            }
+            write_endl_if_filled(m_projpar.defined_macros);
         }
 
         std::string preceded(std::string const& tab, std::string const& line) const
@@ -235,10 +239,7 @@ class proj4_writer_cpp_bg
             {
                 stream << preceded(tab3, line) << std::endl;
             }
-            if (! m_projpar.inlined_functions.empty())
-            {
-                stream << std::endl;
-            }
+            write_endl_if_filled(m_projpar.inlined_functions);
         }
 
         void write_postfix()
@@ -346,10 +347,7 @@ class proj4_writer_cpp_bg
                     {
                         stream << tab4 << s << std::endl;
                     }
-                    if (! proj.preceding_lines.empty())
-                    {
-                        stream << std::endl;
-                    }
+                    write_endl_if_filled(proj.preceding_lines);
                 }
 
                 if (proj.direction == "special_factors")

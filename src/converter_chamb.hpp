@@ -69,16 +69,14 @@ class converter_cpp_bg_chamb : public converter_cpp_bg_default
             {
                 BOOST_FOREACH(parameter& p, der.parsed_parameters)
                 {
-                    if (boost::starts_with(p.name, "lat_"))
+                    // lat_1 -> Latitude of control point 1
+                    if (boost::starts_with(p.name, "lat_")
+                     || boost::starts_with(p.name, "lon_"))
                     {
-                        p.explanation = "Latitude of control point X";
-                        p.processed = true;
-                        p.used = true;
-                        p.type = "degrees";
-                    }
-                    else if (boost::starts_with(p.name, "lon_"))
-                    {
-                        p.explanation = "Longitude of control point X";
+                        p.explanation = p.name;
+                        boost::replace_all(p.explanation , "lat", "Latitude");
+                        boost::replace_all(p.explanation , "lon", "Longitude");
+                        boost::replace_all(p.explanation, "_", " of control point ");
                         p.processed = true;
                         p.used = true;
                         p.type = "degrees";

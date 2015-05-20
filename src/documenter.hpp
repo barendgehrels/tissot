@@ -128,7 +128,7 @@ private :
             }
             else if (term == "MADAGASCAR")
             {
-                der.parsed_characteristics.push_back("For Madagascar");
+                der.parsed_characteristics.push_back("Special for Madagascar");
             }
             else if (term == "CH1903")
             {
@@ -269,8 +269,8 @@ private :
                 ("lat_2", "Latitude of second standard parallel")
                 ("lat_ts", "Latitude of true scale")
                 ("lon_0", "Central meridian")
-                ("lon_1", "?")
-                ("lon_2", "?")
+                ("lon_1", "") // TODO
+                ("lon_2", "")
                 ("south", "Denotes southern hemisphere UTM zone")
                 ("zone", "UTM Zone")
 

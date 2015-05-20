@@ -50,34 +50,8 @@ class proj4_parser
     private :
 
         // TODO: replacements will go to tissot_converter.hpp
-        // Replaces "P->" with our expression "par."
-        void replace_pars(std::string& line, std::string const& prefix = "")
-        {
-            if (boost::contains(line, "->"))
-            {
-                boost::replace_all(line, "fac->", prefix + "fac.");
-                boost::replace_all(line, "P->", prefix + "par.");
-                boost::replace_all(line, "P -> ", prefix + "par.");
-                // Refer to project-specific parameters
-                for (std::vector<std::string>::const_iterator it = proj_parameter_names.begin();
-                    it != proj_parameter_names.end();
-                    ++it)
-                {
-                    boost::replace_all(line, "par." + *it, "proj_parm." + *it);
-                }
-                // If the projection-parameter was a "p", it has replaced par.params/par.phi0 as well... Correct this
-                boost::replace_all(line, "proj_parm.params", "par.params");
-                boost::replace_all(line, "proj_parm.phi0", "par.phi0");
-                // Same for lam0
-                boost::replace_all(line, "proj_parm.lam0", "par.lam0");
-            }
-
-        }
-
-        // TODO: replacements will go to tissot_converter.hpp
         bool replace_in_entry(std::string& line)
         {
-            replace_pars(line);
             replace_return(line, "P");
 
             return true;
@@ -384,7 +358,6 @@ class proj4_parser
                         {
                             in_proj_params = false;
                         }
-                        proj_parameter_names = extract_names(m_prop.proj_parameters);
 
                         if (! par_constructor.empty())
                         {
@@ -454,7 +427,6 @@ class proj4_parser
                             // Goes in "projection.lines"
 
                             replace_macros(line);
-                            replace_pars(line, "this->m_");
 
                             replace_return(line, "xy");
                             replace_return(line, "lp");
@@ -514,8 +486,6 @@ class proj4_parser
         std::vector<epsg_entry> const& m_epsg_entries;
 
         std::string projection_group;
-
-        std::vector<std::string> proj_parameter_names; // same but only names
 
         bool skip_for_setup;
         unsigned int skip_lineno;

@@ -32,14 +32,16 @@ public :
 
     void convert()
     {
-        fix_lastlines();
+        for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
         replace_parameters();
+        replace_parameter_usage();
+
+        fix_lastlines();
         replace_apple_macros();
         replace_ctx();
         replace_struct_parameters();
         determine_const_types();
 
-        for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
         for_each_line(&proj4_converter_cpp_bg::replace_exceptions);
         trim(); // we do this twice
     }
@@ -210,7 +212,7 @@ private :
 
     void remove_fwd_inv(std::string& line, std::string const& direction)
     {
-        std::string::size_type const pos = line.find("par." + direction);
+        std::string::size_type const pos = line.find("P->" + direction);
         if (pos == std::string::npos)
         {
             return;
@@ -230,7 +232,7 @@ private :
         int index = 0;
         BOOST_FOREACH(std::string& line, lines)
         {
-            if (boost::contains(line, "par."))
+            if (boost::contains(line, "P->"))
             {
                 remove_fwd_inv(line, "fwd");
                 remove_fwd_inv(line, "inv");
@@ -278,6 +280,48 @@ private :
             }
         }
     }
+
+    void replace_parameter_usage(std::vector<std::string>& lines, std::string const& prefix)
+    {
+        std::vector<std::string> proj_parameter_names = extract_names(m_prop.proj_parameters);
+        BOOST_FOREACH(std::string& line, lines)
+        {
+            if (boost::contains(line, "->"))
+            {
+                boost::replace_all(line, "fac->", prefix + "fac.");
+                boost::replace_all(line, "P->", prefix + "par.");
+                boost::replace_all(line, "P -> ", prefix + "par.");
+                // Refer to project-specific parameters
+                for (std::vector<std::string>::const_iterator it = proj_parameter_names.begin();
+                    it != proj_parameter_names.end();
+                    ++it)
+                {
+                    boost::replace_all(line, "par." + *it, "proj_parm." + *it);
+                }
+                // If the projection-parameter was a "p", it has replaced par.params/par.phi0 as well... Correct this
+                boost::replace_all(line, "proj_parm.params", "par.params");
+                boost::replace_all(line, "proj_parm.phi0", "par.phi0");
+                // Same for lam0
+                boost::replace_all(line, "proj_parm.lam0", "par.lam0");
+            }
+        }
+    }
+
+    void replace_parameter_usage()
+    {
+        replace_parameter_usage(m_prop.setup_functions, "");
+        BOOST_FOREACH(derived& der, m_prop.derived_projections)
+        {
+            replace_parameter_usage(der.constructor_lines, "");
+        }
+
+        replace_parameter_usage(m_prop.inlined_functions, "this->m_");
+        BOOST_FOREACH(projection& proj, m_prop.projections)
+        {
+            replace_parameter_usage(proj.lines, "this->m_");
+        }
+    }
+
 
     void trim_right(std::vector<std::string>& lines)
     {

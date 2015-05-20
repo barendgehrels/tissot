@@ -32,7 +32,9 @@ public :
 
     void convert()
     {
+        for_each_line(&proj4_converter_cpp_bg::replace_macros);
         for_each_line(&proj4_converter_cpp_bg::remove_fwd_inv);
+        replace_setup();
         replace_parameters();
         replace_parameter_usage();
         replace_return();
@@ -358,6 +360,34 @@ private :
         }
     }
 
+    void replace_setup()
+    {
+        boost::replace_all(m_prop.setup_function_line, "PJ *P", "Parameters& par");
+        boost::replace_all(m_prop.setup_function_line, "static PJ *", "void");
+        /*libproject*/boost::replace_all(m_prop.setup_function_line, "PROJ *P", "Parameters& par");
+        /*libproject*/boost::replace_all(m_prop.setup_function_line, "static PROJ *", "void");
+
+        // add void (in most/all cases 'static PJ *' was on the previous line)
+        if (! boost::starts_with(m_prop.setup_function_line, "void"))
+        {
+            m_prop.setup_function_line = "void " + m_prop.setup_function_line;
+        }
+    }
+
+    void replace_macros(std::vector<std::string>& lines)
+    {
+        BOOST_FOREACH(std::string& line, lines)
+        {
+            // Replace all "defines" containing -> with the defined constant
+            for (std::vector<macro_or_const>::const_iterator it = m_prop.defined_parameters.begin();
+            it != m_prop.defined_parameters.end();
+            ++it)
+            {
+                boost::replace_all(line, it->name, it->value);
+            }
+        }
+    }
+
     void trim_right(std::vector<std::string>& lines)
     {
         BOOST_FOREACH(std::string& line, lines)
@@ -414,6 +444,13 @@ private :
         BOOST_FOREACH(std::string& line, lines)
         {
             boost::replace_all(line, "P->", "par.");
+        }
+        BOOST_FOREACH(derived& der, m_prop.derived_projections)
+        {
+            BOOST_FOREACH(std::string& line, der.constructor_lines)
+            {
+                boost::replace_first(line, "setup(P", "setup(par");
+            }
         }
     }
 

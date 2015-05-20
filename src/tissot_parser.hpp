@@ -49,25 +49,6 @@ class proj4_parser
 
     private :
 
-        void replace_macros(std::string& line)
-        {
-            // Replace all "defines" containing -> with the defined constant
-            // TODO: replacements will go to tissot_converter.hpp
-            for (std::vector<macro_or_const>::const_iterator it = m_prop.defined_parameters.begin();
-                it != m_prop.defined_parameters.end();
-                ++it)
-            {
-                boost::replace_all(line, it->name, it->value);
-            }
-        }
-
-
-        void insert_into_setup(std::string line, std::vector<std::string>& setup)
-        {
-            replace_macros(line);
-            setup.push_back(line);
-        }
-
         std::string get_raw_model(std::string const& line)
         {
             std::string result = line;
@@ -254,7 +235,6 @@ class proj4_parser
                         {
                             boost::replace_all(trimmed, "ENDENTRY(", "");
                             boost::replace_last(trimmed, ")", "");
-                            boost::replace_first(trimmed, "setup(P", "setup(par");
                             derived_it->constructor_lines.push_back(trimmed + ";");
                         }
                         in_constructor = false;
@@ -263,18 +243,7 @@ class proj4_parser
                     {
                         in_postfix = true;
                         m_prop.setup_function_line = trimmed;
-                        boost::replace_all(m_prop.setup_function_line, "PJ *P", "Parameters& par");
-                        boost::replace_all(m_prop.setup_function_line, "static PJ *", "void");
-                        /*libproject*/boost::replace_all(m_prop.setup_function_line, "PROJ *P", "Parameters& par");
-                        /*libproject*/boost::replace_all(m_prop.setup_function_line, "static PROJ *", "void");
                         boost::replace_all(m_prop.setup_function_line, "{", "");
-
-                        // add void (in most/all cases 'static PJ *' was on the previous line)
-                        if (! boost::starts_with(m_prop.setup_function_line, "void"))
-                        {
-                            m_prop.setup_function_line = "void " + m_prop.setup_function_line;
-                        }
-
                     }
                     else if (boost::contains(trimmed, "PROJ_PARMS"))
                     {
@@ -386,7 +355,7 @@ class proj4_parser
                     }
                     else if (in_postfix)
                     {
-                        insert_into_setup(line, m_prop.setup_functions);
+                        m_prop.setup_functions.push_back(line);
                     }
                     else
                     {
@@ -415,8 +384,6 @@ class proj4_parser
                         {
                             // Goes in "projection.lines"
 
-                            replace_macros(line);
-
                             boost::replace_all(line, "xy.x", "xy_x");
                             boost::replace_all(line, "xy.y", "xy_y");
                             boost::replace_all(line, "lp.lam", "lp_lon");
@@ -434,12 +401,7 @@ class proj4_parser
                     {
                         if (! started && derived_it != m_prop.derived_projections.end())
                         {
-                            // Replace call to "setup(P)" with appropriate
-                            if (boost::starts_with(trimmed, "setup(P"))
-                            {
-                                    boost::replace_first(line, "(P", "(par");
-                            }
-                            insert_into_setup(line, derived_it->constructor_lines);
+                            derived_it->constructor_lines.push_back(line);
                         }
                     }
                     else if (extra_entries.size() > 0 && derived_it != m_prop.derived_projections.end())

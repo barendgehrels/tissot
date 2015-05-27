@@ -30,6 +30,7 @@ class converter_cpp_bg_aea : public converter_cpp_bg_default
         void convert()
         {
             adapt_rho_parameter(m_prop);
+            insert_ignore_unused_function(m_prop, "phi1_");
         }
 
     private :

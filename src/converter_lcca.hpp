@@ -10,6 +10,7 @@
 // Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
+#include "tissot_common.hpp"
 #include "tissot_structs.hpp"
 #include "tissot_util.hpp"
 #include "converter_base.hpp"
@@ -33,6 +34,7 @@ class converter_cpp_bg_lcca : public converter_cpp_bg_default
             {
                 d.constructor_lines.push_back(tab1 + "boost::ignore_unused(tan20);");
             }
+            insert_ignore_unused_function(m_prop, "fSp");
         }
 
     private :

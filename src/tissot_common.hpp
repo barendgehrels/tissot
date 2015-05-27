@@ -113,6 +113,18 @@ inline bool move_expression(projection& proj, std::string const& expr, std::stri
 }
 
 
+inline void insert_ignore_unused_function(projection_properties& prop,
+        std::string const& function)
+{
+    BOOST_FOREACH(derived& der, prop.derived_projections)
+    {
+        // In first setup-function, ignore specified function
+        der.constructor_lines.insert(der.constructor_lines.begin(),
+            tab1 + "boost::ignore_unused(" + function + ");");
+        return;
+    }
+}
+
 
 }}} // namespace boost::geometry::proj4converter
 

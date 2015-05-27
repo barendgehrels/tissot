@@ -36,6 +36,10 @@ class converter_cpp_bg_qsc : public converter_cpp_bg_default
                 {
                      proj.lines.push_back(tab2 + "boost::ignore_unused(nu);");
                 }
+                BOOST_FOREACH(std::string& line, proj.lines)
+                {
+                    boost::replace_all(line, "double q, r, s;", "double q = 0.0, r = 0.0, s = 0.0;");
+                }
             }
         }
 

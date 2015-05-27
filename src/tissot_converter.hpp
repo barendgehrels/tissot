@@ -334,6 +334,8 @@ private :
         boost::trim_right_if(copy, boost::is_any_of(" );"));
         if (copy == var)
         {
+            // Replace with empty return
+            // (will be removed later, if it is the last line)
             line = tab3 + "return;";
         }
     }

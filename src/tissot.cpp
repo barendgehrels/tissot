@@ -38,6 +38,7 @@
 #include "converter_lsat.hpp"
 #include "converter_mod_ster.hpp"
 #include "converter_ob_tran.hpp"
+#include "converter_omerc.hpp"
 #include "converter_qsc.hpp"
 #include "converter_robin.hpp"
 #include "converter_rouss.hpp"
@@ -75,6 +76,7 @@ converter_cpp_bg_default* get_specific(std::string const& projection_group,
         :  projection_group == "lsat" ? new converter_cpp_bg_lsat(prop)
         :  projection_group == "mod_ster" ? new converter_cpp_bg_mod_ster(prop)
         :  projection_group == "ob_tran" ? new converter_cpp_bg_ob_tran(prop)
+        :  projection_group == "omerc" ? new converter_cpp_bg_omerc(prop)
         :  projection_group == "qsc" ? new converter_cpp_bg_qsc(prop)
         :  projection_group == "robin" ? new converter_cpp_bg_robin(prop)
         :  projection_group == "rouss" ? new converter_cpp_bg_rouss(prop)

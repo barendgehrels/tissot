@@ -48,6 +48,8 @@ class converter_cpp_bg_isea : public converter_cpp_bg_default
 
                 // Structure not completely filled:
                 boost::replace_all(line, "{0.0},", "{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},");
+
+                boost::replace_all(line, "pow(g->aperture," , "pow(static_cast<double>(g->aperture),");
             }
 
             // Remove #ifndef/#endif structs (defining M_PI / static)
@@ -65,6 +67,19 @@ class converter_cpp_bg_isea : public converter_cpp_bg_default
                         break;
                     }
                     it = std::find_if(it + 1, lines.end(), sw);
+                }
+            }
+
+            // Insert ignore_unused for occurences of "downtri
+            {
+                functor_starts_with sw("downtri ");
+                std::vector<std::string>::iterator it = std::find_if(lines.begin(), lines.end(), sw);
+                while (it != lines.end())
+                {
+                    ++it;
+                    std::size_t index = std::distance(lines.begin(), it);
+                    lines.insert(it, tab1 + "boost::ignore_unused(downtri);");
+                    it = std::find_if(lines.begin() + index + 1, lines.end(), sw);
                 }
             }
 

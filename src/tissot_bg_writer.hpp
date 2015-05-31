@@ -80,9 +80,9 @@ class proj4_writer_cpp_bg
             }
         }
 
-        void write_copyright()
+        void write_copyright_file(std::string const& filename)
         {
-            std::ifstream cr_file ("../src/tissot_bg_copyright_header.txt");
+            std::ifstream cr_file (filename.c_str());
             if (cr_file.is_open())
             {
                 while (! cr_file.eof() )
@@ -94,7 +94,15 @@ class proj4_writer_cpp_bg
                 }
                 cr_file.close();
             }
-            stream << std::endl;
+        }
+
+        void write_copyright()
+        {
+            write_copyright_file("../src/tissot_bg_copyright_header1.txt");
+
+            stream << "// Last updated version of proj: 4.9.1" << std::endl << std::endl;
+            stream << "// Original copyright notice:" << std::endl << std::endl;
+            write_copyright_file("../src/tissot_bg_copyright_header2.txt");
         }
         void write_header()
         {

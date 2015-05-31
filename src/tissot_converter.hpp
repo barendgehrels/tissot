@@ -192,6 +192,17 @@ private :
                 m_prop.extra_includes.insert("boost/shared_ptr.hpp");
             }
 
+            // Geometry
+            if (boost::contains(line, "::d2r<")
+                || boost::contains(line, "::r2d<")
+                || boost::contains(line, "::pi<")
+                || boost::contains(line, "::two_pi<")
+                || boost::contains(line, "::half_pi<")
+            )
+            {
+                m_prop.extra_includes.insert("boost/geometry/util/math.hpp");
+            }
+
             // Std
             if (boost::contains(line, "sprintf"))
             {
@@ -401,10 +412,60 @@ private :
         }
     }
 
+    void replace_pi(std::string& line)
+    {
+        // Save
+        boost::replace_all(line, "TWO_HALFPI", "@two_halfpi");
+        boost::replace_all(line, "PI_HALFPI", "@pi_halfpi");
+        boost::replace_all(line, "FORTPI", "@fortpi");
+        boost::replace_all(line, "TWORPI", "@tworpi");
+        boost::replace_all(line, "HLFPI2", "@hlfpi2");
+        boost::replace_all(line, "PI_DIV", "@pi_div");
+        boost::replace_all(line, "PISQ", "@pisq");
+        boost::replace_all(line, "TWO_D_PI", "@two_d_pi");
+        boost::replace_all(line, "PI4_3", "@pi4_3");
+
+        // Replace
+        boost::replace_all(line, "M_PI / 2.0", "geometry::math::half_pi<double>()");
+        boost::replace_all(line, "M_PI / 180.0", "geometry::math::d2r<double>()");
+        boost::replace_all(line, "2 * M_PI", "geometry::math::two_pi<double>()");
+        boost::replace_all(line, "2.0 * M_PI", "geometry::math::two_pi<double>()");
+
+        boost::replace_all(line, "HALFPI", "geometry::math::half_pi<double>()");
+
+        boost::replace_all(line, "M_PI_2", "geometry::math::two_pi<double>()");
+        boost::replace_all(line, "M_PI", "geometry::math::pi<double>()");
+
+        boost::replace_all(line, "TWOPI", "geometry::math::two_pi<double>()");
+        boost::replace_all(line, "PI", "geometry::math::pi<double>()");
+
+        // Restore
+        boost::replace_all(line, "@two_halfpi", "TWO_HALFPI");
+        boost::replace_all(line, "@pi_halfpi", "PI_HALFPI");
+        boost::replace_all(line, "@fortpi", "FORTPI");
+        boost::replace_all(line, "@tworpi", "TWORPI");
+        boost::replace_all(line, "@hlfpi2", "HLFPI2");
+        boost::replace_all(line, "@pi_div", "PI_DIV");
+        boost::replace_all(line, "@pisq", "PISQ");
+        boost::replace_all(line, "@two_d_pi", "TWO_D_PI");
+        boost::replace_all(line, "@pi4_3", "PI4_3");
+    }
+
+
     void replace_functions_in_line(std::string& line)
     {
-        boost::replace_all(line, "M_PI_2", "(2.0 * boost::math::constants::pi<double>())");
-        boost::replace_all(line, "M_PI", "boost::math::constants::pi<double>()");
+        if (boost::starts_with(boost::trim_copy(line), "/*"))
+        {
+            return;
+        }
+
+        replace_pi(line);
+
+        boost::replace_all(line, "DEG_TO_RAD", "geometry::math::d2r<double>()");
+        boost::replace_all(line, "RAD_TO_DEG", "geometry::math::r2d<double>()");
+        // Isea only:
+        boost::replace_all(line, "DEG2RAD", "geometry::math::d2r<double>()");
+        boost::replace_all(line, "RAD2DEG", "geometry::math::r2d<double>()");
 
         boost::replace_all(line, "hypot", "boost::math::hypot");
 

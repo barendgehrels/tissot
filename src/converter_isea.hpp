@@ -32,6 +32,9 @@ class converter_cpp_bg_isea : public converter_cpp_bg_default
 
             // Remove M_PI and M_PI_2
             functor_equals_in_named_struct eq("M_PI", "M_PI_2");
+            eq.add("DEG2RAD");
+            eq.add("RAD2DEG");
+            eq.add("ISEA_STATIC");
             eq.add("ISEA_STATIC");
 
             m_prop.defined_consts.erase

@@ -41,6 +41,7 @@ class proj4_parser
             , projection_group(group)
             , m_in_standard_copyright(false)
             , m_stop_first_comments(false)
+            , m_in_prefix(true)
         {
             parse(filename);
         }
@@ -58,6 +59,11 @@ class proj4_parser
 
         void add_comment(std::string const& line)
         {
+            if (m_stop_first_comments && m_in_prefix)
+            {
+                m_prop.inlined_functions.push_back(line);
+                return;
+            }
             if (m_in_standard_copyright || m_stop_first_comments)
             {
                 return;
@@ -89,6 +95,7 @@ class proj4_parser
 
             // Remove first asterisk(s)
             std::string copy = line;
+            boost::trim(copy);
             while (boost::starts_with(copy, "*"))
             {
                 boost::replace_first(copy, "*", "");
@@ -103,7 +110,6 @@ class proj4_parser
 
             bool in_projection = false;
             bool in_constructor = false;
-            bool in_prefix = true;
             bool in_postfix = false;
             bool in_define = false;
             bool in_comment = false;
@@ -182,7 +188,7 @@ class proj4_parser
                     }
                     else if (boost::starts_with(trimmed, "FORWARD"))
                     {
-                        in_prefix = false;
+                        m_in_prefix = false;
                         in_projection = true;
                         started = true;
                         direction = "forward";
@@ -190,7 +196,7 @@ class proj4_parser
                     }
                     else if (boost::starts_with(trimmed, "INVERSE"))
                     {
-                        in_prefix = false;
+                        m_in_prefix = false;
                         in_projection = true;
                         started = true;
                         direction = "inverse";
@@ -198,7 +204,7 @@ class proj4_parser
                     }
                     else if (boost::starts_with(trimmed, "SPECIAL"))
                     {
-                        in_prefix = false;
+                        m_in_prefix = false;
                         in_projection = true;
                         started = true;
                         direction = "special_factors";  // pseudo. Is in lcc and in eqdc
@@ -366,8 +372,7 @@ class proj4_parser
 
 
                     }
-                    else if (in_prefix
-                        && ! boost::contains(trimmed, "*/")
+                    else if (! boost::contains(trimmed, "*/")
                         && (boost::starts_with(trimmed, "/***")
                             || boost::starts_with(trimmed, "/* PROJ.4")
                             || trimmed == "/*"
@@ -376,18 +381,18 @@ class proj4_parser
                     {
                         m_in_standard_copyright = false;
                         in_comment = true;
-                        add_comment(trimmed);
+                        add_comment(line);
                     }
                     else if (in_comment && boost::contains(trimmed, "*/"))
                     {
-                        add_comment(trimmed);
+                        add_comment(line);
                         in_comment = false;
                     }
                     else if (in_comment)
                     {
-                        add_comment(trimmed);
+                        add_comment(line);
                     }
-                    else if (in_prefix
+                    else if (m_in_prefix
                         && ! in_comment
                         && ! in_define
                         && ! boost::starts_with(nospaced, "#include")
@@ -476,6 +481,7 @@ class proj4_parser
         std::string projection_group;
         bool m_in_standard_copyright;
         bool m_stop_first_comments;
+        bool m_in_prefix;
 };
 
 

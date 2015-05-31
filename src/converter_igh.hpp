@@ -80,6 +80,8 @@ private :
                 boost::replace_all(line, "xy = ", "");
                 boost::replace_all(line, "lp, this->m_proj_parm.pj[z-1]", "lp_lon, lp_lat, xy_x, xy_y");
             }
+            // Resolve ambiguity for older versions of MSVC
+            boost::replace_all(line, "sqrt(2)", "sqrt(2.0)");
         }
     }
 

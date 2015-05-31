@@ -139,7 +139,9 @@ private :
         BOOST_FOREACH(std::string& line, lines)
         {
             if (boost::contains(line, "aasin")
-                || boost::contains(line, "aacos"))
+                || boost::contains(line, "aacos")
+                || boost::contains(line, "aatan2")
+                || boost::contains(line, "asqrt"))
             {
                 m_prop.extra_impl_includes.insert("aasincos.hpp");
             }

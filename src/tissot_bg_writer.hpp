@@ -470,11 +470,15 @@ class proj4_writer_cpp_bg
                 BOOST_FOREACH(model const& mod, der.models)
                 {
                     std::string name = der.name + "_" + mod.name;
+                    if (mod.subgroup != projection_group)
+                    {
+                        name = mod.subgroup + "_" + mod.name;
+                    }
 
                     if (m_projpar.valid)
                     {
                         std::string base = "detail::" + projection_group
-                            + "::base_" + projection_group + "_" + mod.name + "<Geographic, Cartesian, Parameters>";
+                            + "::base_" + mod.subgroup + "_" + mod.name + "<Geographic, Cartesian, Parameters>";
 
                         // Doxygen comments
                         stream

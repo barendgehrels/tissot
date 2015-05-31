@@ -71,6 +71,7 @@ public :
             {
                 model m;
                 m.name = proj.model;
+                m.subgroup = proj.subgroup;
                 m.has_inverse = proj.direction == "inverse";
                 if (m_prop.has_spheroid && m_prop.has_ellipsoid)
                 {

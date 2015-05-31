@@ -40,7 +40,7 @@ struct projection
     std::string raw_model; // as in proj4: e_forward, etc
     std::string direction; // inverse/forward/factors
     std::string model; // spheroid/ellipsoid/oblique/transverse/Guam-elliptical
-    std::string subgroup; // TODO: healpix/rhealpix
+    std::string subgroup; // healpix/rhealpix
     std::vector<std::string> lines;
     std::vector<std::string> preceding_lines;
     std::deque<std::string> trailing_lines;
@@ -65,9 +65,11 @@ struct macro_or_const
     std::string value;
 };
 
+// Filled for each FORWARD/INVERSE macro
 struct model
 {
-    std::string name;
+    std::string name; // spheriod/ellipsoid, assigned from projection.model
+    std::string subgroup; // healpix/rhealpix
     std::string condition;
     bool has_inverse;
     model()
@@ -89,6 +91,7 @@ struct parameter
     {}
 };
 
+//
 struct derived
 {
     std::string name;

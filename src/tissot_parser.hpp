@@ -39,9 +39,6 @@ class proj4_parser
             : m_prop(prop)
             , m_epsg_entries(epsg_entries)
             , projection_group(group)
-            , skip_for_setup(false)
-            , skip_lineno(0)
-            , lineno(0)
         {
             parse(filename);
         }
@@ -75,6 +72,8 @@ class proj4_parser
             std::vector<derived>::iterator derived_it;
             std::string line2; // keeping macro value of line2
 
+
+            int current_lineno = 0;
             int proj_lineno = -1;
 
 
@@ -85,7 +84,7 @@ class proj4_parser
 
                     std::string line;
                     std::getline(cpp_file, line);
-                    lineno++;
+                    current_lineno++;
 
                     // Avoid tabs
                     boost::replace_all(line, "\t", tab1);
@@ -108,14 +107,14 @@ class proj4_parser
                     std::string::size_type loc;
 
                     if (find(line, PROJ_HEAD, loc)
-                        || (lineno == proj_lineno + 1
+                        || (current_lineno == proj_lineno + 1
                             && (boost::starts_with(trimmed, "\"") || boost::starts_with(trimmed, "LINE2"))
                             )
 
                         )
                     {
                         if (loc == std::string::npos
-                            && lineno == proj_lineno + 1 && ! m_prop.derived_projections.empty())
+                            && current_lineno == proj_lineno + 1 && ! m_prop.derived_projections.empty())
                         {
                             // If macro LINE2 is defined and used, we replace it
                             boost::replace_all(trimmed, "LINE2", line2);
@@ -136,7 +135,7 @@ class proj4_parser
                                 m_prop.derived_projections.push_back(der);
                             }
                         }
-                        proj_lineno = lineno;
+                        proj_lineno = current_lineno;
                     }
                     else if (boost::starts_with(trimmed, "FORWARD"))
                     {
@@ -421,10 +420,6 @@ class proj4_parser
         std::vector<epsg_entry> const& m_epsg_entries;
 
         std::string projection_group;
-
-        bool skip_for_setup;
-        unsigned int skip_lineno;
-        unsigned int lineno;
 };
 
 

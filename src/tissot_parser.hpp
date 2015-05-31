@@ -39,6 +39,8 @@ class proj4_parser
             : m_prop(prop)
             , m_epsg_entries(epsg_entries)
             , projection_group(group)
+            , m_in_standard_copyright(false)
+            , m_stop_first_comments(false)
         {
             parse(filename);
         }
@@ -52,6 +54,47 @@ class proj4_parser
             strip_comments(result);
             boost::trim(result);
             return result;
+        }
+
+        void add_comment(std::string const& line)
+        {
+            if (m_in_standard_copyright || m_stop_first_comments)
+            {
+                return;
+            }
+
+            std::string adapted = boost::replace_all_copy(line, "*", "");
+            boost::replace_first(adapted, "/", "");
+            boost::trim(adapted);
+
+            if (adapted.empty()
+                || boost::starts_with(adapted, "$Id:"))
+            {
+                return;
+            }
+            if (boost::starts_with(adapted, "Permission is hereby granted"))
+            {
+                m_in_standard_copyright = true;
+                return;
+            }
+
+            boost::replace_all(adapted, " ", "");
+            if (adapted == "Project:PROJ.4"
+                || adapted == "PROJ.4CartographicProjectionSystem"
+                || adapted == "libproj--libraryofcartographicprojections"
+            )
+            {
+                return;
+            }
+
+            // Remove first asterisk(s)
+            std::string copy = line;
+            while (boost::starts_with(copy, "*"))
+            {
+                boost::replace_first(copy, "*", "");
+                boost::trim(copy);
+            }
+            m_prop.first_comments.push_back(copy);
         }
 
         void parse(std::string const& filename)
@@ -331,11 +374,18 @@ class proj4_parser
                             )
                         )
                     {
+                        m_in_standard_copyright = false;
                         in_comment = true;
+                        add_comment(trimmed);
                     }
                     else if (in_comment && boost::contains(trimmed, "*/"))
                     {
+                        add_comment(trimmed);
                         in_comment = false;
+                    }
+                    else if (in_comment)
+                    {
+                        add_comment(trimmed);
                     }
                     else if (in_prefix
                         && ! in_comment
@@ -350,6 +400,10 @@ class proj4_parser
                         && ! (boost::starts_with(trimmed, "\"") && boost::ends_with(trimmed, "\""))) // after projhead
                     {
                         m_prop.inlined_functions.push_back(line);
+                    }
+                    else if (boost::starts_with(nospaced, "#include"))
+                    {
+                        m_stop_first_comments = true;
                     }
                     else if (in_postfix)
                     {
@@ -420,6 +474,8 @@ class proj4_parser
         std::vector<epsg_entry> const& m_epsg_entries;
 
         std::string projection_group;
+        bool m_in_standard_copyright;
+        bool m_stop_first_comments;
 };
 
 

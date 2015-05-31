@@ -115,6 +115,7 @@ struct projection_properties
     std::string template_struct;
     std::string setup_return_type; // If empty, then "void" assumed
     std::string setup_extra_parameters;
+    std::vector<std::string> first_comments;
     std::vector<std::string> setup_extra_code;
 
     std::set<std::string> extra_includes;

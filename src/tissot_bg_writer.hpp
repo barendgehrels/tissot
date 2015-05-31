@@ -102,6 +102,14 @@ class proj4_writer_cpp_bg
 
             stream << "// Last updated version of proj: 4.9.1" << std::endl << std::endl;
             stream << "// Original copyright notice:" << std::endl << std::endl;
+            if (! m_projpar.first_comments.empty())
+            {
+                BOOST_FOREACH(std::string const& s, m_projpar.first_comments)
+                {
+                    stream << "// " << s << std::endl;
+                }
+                stream << std::endl;
+            }
             write_copyright_file("../src/tissot_bg_copyright_header2.txt");
         }
         void write_header()

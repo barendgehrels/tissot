@@ -11,7 +11,7 @@ COMPILING:
 There is one cpp file. It is only dependent on Boost. So compilation should
 be extremely simple, for example:
 
-clang -I . -I /home/barend/git/boost/modular-boost/ -o ../bin/tissot tissot.cpp -lstdc++
+clang -I . -I /home/barend/git/boost/ -o ../bin/tissot tissot.cpp -lstdc++
 
 
 RUNNING:

@@ -11,4 +11,4 @@
 # gcc should also work
 # It should also be able to compile it with MSVC
 
-clang -I . -I ~/git/boost/modular-boost/ -o ../bin/tissot tissot.cpp -lstdc++
+clang-3.5 -I . -I ~/git/boost/ -o ../bin/tissot tissot.cpp -lstdc++
